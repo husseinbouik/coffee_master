@@ -1,5 +1,9 @@
-import 'package:coffee_master/offerspage.dart';
+import 'package:coffee_master/datamanager.dart';
+import 'package:coffee_master/pages/offerspage.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/menupage.dart';
+import 'pages/orderpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -71,6 +75,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+
   const MyHomePage({super.key});
 
   @override
@@ -78,15 +83,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var dataManager = DataManager();
+  var selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    Widget currentWidgetPage = const Text("!!!!!");
+    
+    switch(selectedIndex){
+     case 0:
+      currentWidgetPage =  MenuPage(dataManager: dataManager,);
+      break;
+     case 1:
+      currentWidgetPage = const OffersPage();
+      break;
+     case 2:
+      currentWidgetPage =  OrderPage(dataManager: dataManager,);
+      break;
+    }
+
     return Scaffold(
       appBar: AppBar(
         // Directly use the primary color for the AppBar
         backgroundColor: Theme.of(context).primaryColor,
         title: Image.asset("images/logo.png"),
       ),
-      body:  Offerspage(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (newIndex){
+          setState(() {
+selectedIndex = newIndex;            
+          });
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedItemColor: Colors.yellow.shade400,
+        unselectedItemColor: Colors.brown.shade50,
+        items:const [
+        BottomNavigationBarItem(label: "Menu",icon: Icon(Icons.coffee)),
+        BottomNavigationBarItem(label: "Offers",icon: Icon(Icons.local_offer)),
+        BottomNavigationBarItem(label: "Order",icon: Icon(Icons.shopping_cart_checkout_outlined)),
+      ]) ,
+      body:
+      currentWidgetPage,        
     );
   }
 }
