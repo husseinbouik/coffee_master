@@ -28,20 +28,20 @@ Future<List<Category>> getMenu() async {
   return _menu!;
 }
 
-
-cartAdd(Product p){
-bool found =false;
-for (var item in cart) {
-  if (item.product.id == p.id) {
-    item.quantity++;
-    found = true;
+void cartAdd(Product p) {
+  bool found = false;
+  for (var item in cart) {
+    if (item.product.id == p.id) {
+      item.quantity++;
+      found = true;
+      break;  // Exit loop if found
+    }
   }
   if (!found) {
-    cart.add(new ItemInCart(product: p, quantity: 1));
-    
+    cart.add(ItemInCart(product: p, quantity: 1));  // Add new item outside the loop
   }
 }
-  }
+
   cartRemove(Product p){
 cart.removeWhere((item) => item.product.id == p.id);
   }
