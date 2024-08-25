@@ -1,4 +1,4 @@
-import 'package:coffee_master/datamanager.dart';
+import '../datamanager.dart';
 import 'package:flutter/material.dart';
 import '../datamodel.dart';
 
@@ -8,19 +8,48 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var p = Product(id: 1, name: "Dummy Product", price: 1.25, image: "");
-    var q = Product(id: 2, name: "Dummy Product Much larger", price: 1.25, image: "");
+   
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Coffee Master'),
-      ),
-      body: Column(
-        children: [
-          ProductItem(product: p, onAdd: () {}),
-          ProductItem(product: q, onAdd: () {}),
-        ],
-      ),
+    return FutureBuilder(
+      future: dataManager.getMenu(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          var categories = snapshot.data! as List<Category>;
+          // return Text("There are ${categories.length} categories");
+          return ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: ((context,index) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(categories[index].name),
+                ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+              itemCount: categories[index].products.length,
+              itemBuilder:(Context,prodIndex){
+                var product = categories[index].products[prodIndex];
+                return ProductItem(
+                  product: product, 
+                  onAdd: (addedProduct){
+                  dataManager.cartAdd(addedProduct);
+                });
+              } ,
+              )
+              ],
+            );
+          }));
+        } else {
+  if (snapshot.hasError) {
+      return const Text("there was an error");
+    } else {
+      
+      return const CircularProgressIndicator();
+    }
+        }
+    }),
     );
   }
 }
@@ -45,7 +74,7 @@ class ProductItem extends StatelessWidget {
             children: [
               SizedBox(
                 height: 150,
-                child: Image.asset("images/black_coffee.png"),
+                child: Image.network(product.imageUrl),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +93,7 @@ class ProductItem extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0), // Reduced padding
-                        child: Text("\$${product.price}"),
+                        child: Text("\$${product.price.toStringAsFixed(2)}"),
                       ),
                     ],
                   ),

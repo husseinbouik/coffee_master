@@ -5,7 +5,11 @@ class OffersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    var size = MediaQuery.of(context).size;
+    if (size.width>500) {
+      
+    }
+    return const Wrap(
       children: const [
         Offer(
           title: "My great offer ever",
@@ -39,55 +43,59 @@ class Offer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.amber.shade50,
-        elevation: 7,
-        child: ConstrainedBox( // Use ConstrainedBox to limit height
-          constraints: BoxConstraints(
-            maxHeight: 150, // Set maximum height
-          ),
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage("images/background.png"),
-              ),
+    return SizedBox(
+      height: 120,
+      width: 300,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: Colors.amber.shade50,
+          elevation: 7,
+          child: ConstrainedBox( // Use ConstrainedBox to limit height
+            constraints: BoxConstraints(
+              maxHeight: 150, // Set maximum height
             ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Container(
-                      color: Colors.amber.shade50,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          title,
-                          style: Theme.of(context).textTheme.headlineMedium,
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("images/background.png"),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Container(
+                        color: Colors.amber.shade50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            title,
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Container(
-                      color: Colors.amber.shade50,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          description,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Container(
+                        color: Colors.amber.shade50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            description,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
