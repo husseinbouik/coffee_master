@@ -29,7 +29,7 @@ class MenuPage extends StatelessWidget {
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
               itemCount: categories[index].products.length,
-              itemBuilder:(Context,prodIndex){
+              itemBuilder:(context,prodIndex){
                 var product = categories[index].products[prodIndex];
                 return ProductItem(
                   product: product, 
